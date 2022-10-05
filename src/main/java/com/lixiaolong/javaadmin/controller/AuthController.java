@@ -42,15 +42,18 @@ public class AuthController extends BaseController {
 
         String str = "data:image/jpeg;base64,";//前缀
         String base64Img = str + encoder.encode(outputStream.toByteArray());
+        System.out.println("验证码为"+code);
 
 //        存入redis
         redisUtil.hset(Const.CAPTCHA_KEY,key,code,120);
+        System.out.println("写入redis，写入内容的hash键为"+Const.CAPTCHA_KEY+" ，redis中的key为:"+key+" ，redis中的value为"+code);
         return Result.succ(
                 MapUtil.builder()
                         .put("token",key)
                         .put("captchaImg",base64Img)
                         .build()
         );
+
 
     }
 }
